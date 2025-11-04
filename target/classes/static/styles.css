@@ -1,0 +1,5 @@
+*{box-sizing:border-box;font-family:system-ui,Segoe UI,Roboto,Arial}body{margin:0;background:#f6f7fb;color:#222}
+.container{max-width:960px;margin:24px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #eee;border-radius:10px;padding:10px;margin:6px 0}
+.table{width:100%;border-collapse:collapse} .table td,.table th{border-bottom:1px solid #eee;padding:6px}
+.inline{display:flex;gap:6px;align-items:center} .column{display:flex;flex-direction:column;gap:8px;max-width:380px}
