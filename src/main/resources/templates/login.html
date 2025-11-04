@@ -1,15 +1,63 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Login</title><link rel="stylesheet" th:href="@{/styles.css}"></head>
-<body>
-<h1>Ingresar</h1>
-<form method="post" th:action="@{/login}" class="column">
-  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-  <label>Correo</label><input type="text" name="username" />
-  <label>Contraseña</label><input type="password" name="password" />
-  <button type="submit">Entrar</button>
-  <div th:if="${param.error}" style="color:#c00">Credenciales inválidas</div>
-  <div th:if="${param.registered}" style="color:#090">Registro exitoso. Ingresa.</div>
-</form>
-<p><a th:href="@{/register}">Registrarme</a></p>
-</body></html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ingresar | PeruBotica</title>
+  <!-- si moviste el css a /css/styles.css -->
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body class="auth-bg">
+  <main class="auth-wrap">
+    <section class="card auth-card">
+      <div class="auth-brand">
+        <!-- coloca aquí tu logo si tienes -->
+        <div class="logo-circle">B</div>
+        <h1>Bienvenido</h1>
+        <p class="muted">Inicia sesión para continuar</p>
+      </div>
+
+      <!-- alertas -->
+      <div class="alert error" th:if="${param.error}">
+        Credenciales inválidas. Inténtalo nuevamente.
+      </div>
+      <div class="alert success" th:if="${param.registered}">
+        ¡Tu cuenta fue creada! Ya puedes ingresar.
+      </div>
+
+      <form method="post" th:action="@{/login}" class="form-grid">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <label for="username">Correo</label>
+        <input id="username" name="username" type="email" placeholder="tucorreo@utp.pe" required autocomplete="username" />
+
+        <label for="password" class="space-between">
+          Contraseña
+          <button type="button" class="btn-link" id="togglePwd">Mostrar</button>
+        </label>
+        <input id="password" name="password" type="password" placeholder="••••••••" required autocomplete="current-password" />
+
+        <button class="btn primary" type="submit">Entrar</button>
+      </form>
+
+      <p class="muted center mt-2">
+        ¿No tienes cuenta?
+        <a th:href="@{/register}" class="link">Registrarme</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    // Mostrar/ocultar contraseña
+    const pwd = document.getElementById('password');
+    const tog = document.getElementById('togglePwd');
+    if (tog && pwd) {
+      tog.addEventListener('click', () => {
+        const show = pwd.type === 'password';
+        pwd.type = show ? 'text' : 'password';
+        tog.textContent = show ? 'Ocultar' : 'Mostrar';
+      });
+    }
+  </script>
+</body>
+</html>

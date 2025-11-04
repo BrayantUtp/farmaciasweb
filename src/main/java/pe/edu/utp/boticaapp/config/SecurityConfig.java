@@ -24,13 +24,13 @@ public class SecurityConfig {
       .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
       .headers(h -> h.frameOptions(f -> f.disable()))
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/", "/catalogo/**", "/css/**", "/js/**", "/img/**", "/h2-console/**", "/login", "/register", "/error").permitAll()
+        .requestMatchers("/", "/catalogo/**", "/css/**","/styles.css", "/js/**", "/img/**", "/h2-console/**", "/login", "/register", "/error").permitAll()
         .anyRequest().authenticated()
       )
       .formLogin(login -> login
         .loginPage("/login")
         .loginProcessingUrl("/login")
-        .defaultSuccessUrl("/", false)
+        .defaultSuccessUrl("/", true)
         .failureUrl("/login?error=true")
         .permitAll()
       )

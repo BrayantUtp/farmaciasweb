@@ -1,7 +1,33 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Inicio</title><link rel="stylesheet" th:href="@{/styles.css}"></head>
-<body>
-<header><a th:href="@{/}">BoticaApp</a> | <a th:href="@{/catalogo}">Catálogo</a> | <a th:href="@{/cart}">Carrito</a> | <a th:href="@{/pedidos}">Pedidos</a> | <a th:href="@{/login}">Ingresar</a></header>
-<main class="container"><h1>Bienvenido a BoticaApp</h1></main>
-</body></html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Inicio | PeruBotica</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+</head>
+<body class="app-bg">
+
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <a class="brand" th:href="@{/}">PeruBotica</a>
+      <nav class="nav-links">
+        <a th:href="@{/catalogo}">Catálogo</a>
+        <a th:href="@{/cart}">Carrito</a>
+        <a th:href="@{/pedidos}">Pedidos</a>
+        <a th:href="@{/login}">Ingresar</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="container">
+    <center><h1>Bienvenido a PeruBotica</h1></center>
+  </main>
+
+  <!-- <footer class="footer">
+    <div class="container small">© <span th:text="${#temporals.format(#dates.createNow(),'yyyy')}">2025</span> BoticaApp — Avance 3</div>
+  </footer> -->
+</body>
+</html>
