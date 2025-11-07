@@ -1,9 +1,12 @@
 package pe.edu.utp.boticaapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pe.edu.utp.boticaapp.repository.ProductoRepository;
+import pe.edu.utp.boticaapp.repository.StockRepository;
 import pe.edu.utp.boticaapp.entity.Producto;
+import pe.edu.utp.boticaapp.entity.Stock;
 import pe.edu.utp.boticaapp.service.CatalogoService;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -11,6 +14,7 @@ import java.util.List;
 @Service @RequiredArgsConstructor
 public class CatalogoServiceImpl implements CatalogoService {
   private final ProductoRepository repo;
+  private final StockRepository stockRepo;
   @Override public List<Producto> listar(String q){ return (q==null||q.isBlank())? repo.findAll(): repo.findByNombreContainingIgnoreCase(q); }
   @Override public byte[] exportarExcel(){
     try(var wb=new XSSFWorkbook(); var out=new ByteArrayOutputStream()){ 
@@ -20,5 +24,11 @@ public class CatalogoServiceImpl implements CatalogoService {
         row.createCell(2).setCellValue(p.getPrecio().doubleValue()); row.createCell(3).setCellValue(p.getCategoria()); }
       wb.write(out); return out.toByteArray();
     } catch (IOException e){ throw new RuntimeException(e); }
+  }
+
+  @Override public List<Stock> topStockPorProducto(Long productoId, int limit){
+    Producto p = repo.findById(productoId).orElse(null);
+    if (p == null) return List.of();
+    return stockRepo.findTopByProductoSku(p.getSku(), PageRequest.of(0, Math.max(1, limit)));
   }
 }

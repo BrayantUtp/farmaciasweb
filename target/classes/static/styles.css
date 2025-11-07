@@ -154,9 +154,14 @@ body {
 .btn.ghost{ background:#fff; }
 .btn.link{ border:none; padding:0; color:#4f46e5; text-decoration:underline; }
 
+/* Excel export button */
+.excel-btn{ display:inline-flex; align-items:center; gap:8px; padding:9px 10px; }
+.excel-icon{ width:18px; height:18px; display:inline-block; }
+.excel-btn span{ font-weight:700; }
+
 /* --- Tarjetas --- */
 .cards-grid{
-  display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; margin:18px 0 8px;
+  display:grid; grid-template-columns: repeat(2, 1fr); gap:16px; margin:18px 0 8px;
 }
 .card{
   background:#fff; border:1px solid #e7eaf1; border-radius:14px;
@@ -164,6 +169,42 @@ body {
 }
 .card.kpi h3{ margin:0 0 6px; }
 .card.kpi p{ margin:0 0 10px; }
+
+/* --- Estilos para catálogo de productos --- */
+.product-card{ display:flex; align-items:flex-start; }
+.image-placeholder{
+  width:76px; height:76px; border-radius:10px; display:grid; place-items:center;
+  background:linear-gradient(180deg,#eef2ff,#eef6ff); color:#111827; font-weight:800; font-size:20px;
+  border:1px solid #eef2ff;
+}
+.image-placeholder[data-cat="Medicamento"]{ background:linear-gradient(180deg,#fef3f2,#fff1f0); }
+.image-placeholder[data-cat="Suplemento"]{ background:linear-gradient(180deg,#ecfdf5,#dcfce7); }
+.image-placeholder .img-text{ font-size:22px; }
+
+.product-card .small{ margin-top:4px; }
+.add-to-cart-form .btn{ padding:9px 12px; }
+
+/* Mejora visual: columna principal y columna derecha con precio/boticas */
+.product-main{ flex:1; display:flex; flex-direction:column; gap:10px; }
+.product-right{ width:240px; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.price-large{ font-weight:900; font-size:1.12rem; color:#111827; }
+.botica-line{ display:block; color:#374151; font-size:0.92rem; margin-top:6px; }
+.botica-line .units{ color:#6b7280; margin:0 6px; }
+
+@media (max-width: 880px){
+  .product-right{ width:100%; align-items:flex-start; }
+  .product-card{ flex-direction:column; gap:10px; }
+}
+
+/* Toasts */
+.toast{ background:#fff; border-radius:10px; padding:10px 14px; box-shadow:0 8px 20px rgba(17,24,39,.08); transition:opacity .35s ease; }
+.toast-success{ border-left:4px solid #10b981; color:#065f46; }
+.toast-error{ border-left:4px solid #ef4444; color:#7f1d1d; }
+
+@media (max-width: 880px){
+  .cards-grid{ grid-template-columns: repeat(1, 1fr); }
+  .image-placeholder{ width:64px; height:64px; }
+}
 
 /* --- Footer --- */
 .footer{ margin-top:24px; padding:18px 0; border-top:1px solid #e9edf3; color:#6b7280; }

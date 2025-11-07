@@ -2,14 +2,11 @@ package pe.edu.utp.boticaapp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.math.BigDecimal;
 
 @Entity @Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
-public class Producto {
+public class Botica {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String sku;
   private String nombre;
-  private BigDecimal precio;
-  private String categoria;
+  private String direccion;
 }

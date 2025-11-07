@@ -1,18 +1,119 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Catálogo</title><link rel="stylesheet" th:href="@{/styles.css}"></head>
-<body>
-<h1>Catálogo</h1>
-<form method="get"><input type="text" name="q" th:value="${q}" placeholder="Buscar"/><button>Buscar</button>
-<a th:href="@{/catalogo/export}">Exportar Excel</a></form>
-<div th:each="p: ${productos}" class="card">
-  <div><b th:text="${p.nombre}">Producto</b> - S/ <span th:text="${p.precio}">0.00</span></div>
-  <form th:action="@{/cart/add}" method="post" class="inline">
-    <input type="hidden" name="productoId" th:value="${p.id}"/>
-    <input type="number" name="cantidad" value="1" min="1"/>
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-    <button>Agregar</button>
-  </form>
-</div>
-<p><a th:href="@{/}">Inicio</a></p>
-</body></html>
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo | PeruBotica</title>
+  <link rel="stylesheet" th:href="@{/styles.css}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Pequeños ajustes locales para el catálogo */
+    .search-row{ display:flex; gap:8px; align-items:center; margin-bottom:14px; }
+    .search-row input[type="text"]{ flex:1; padding:10px 12px; border-radius:10px; border:1px solid #d9dce3; }
+  </style>
+</head>
+<body class="app-bg">
+  <div class="container">
+    <div class="space-between" style="align-items:center; margin-bottom:12px">
+      <h1 style="margin:0">Catálogo</h1>
+      <div>
+        <a th:href="@{/}">Inicio</a>
+      </div>
+    </div>
+
+    <form method="get" class="search-row">
+      <input type="text" name="q" th:value="${q}" placeholder="Buscar productos por nombre o categoría"/>
+      <button class="btn">Buscar</button>
+      <a class="btn ghost excel-btn" th:href="@{/catalogo/export}" title="Exportar a Excel">
+        <svg class="excel-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="3" width="20" height="18" rx="2" ry="2" fill="#107C10"></rect>
+          <path d="M7 7h3l2 3 2-3h3v10H7z" fill="#ffffff"></path>
+        </svg>
+        <span>Exportar Excel</span>
+      </a>
+    </form>
+
+    <div class="cards-grid" th:if="${#lists.isEmpty(productos)} == false">
+      <div th:each="p : ${productos}" class="card product-card">
+        <div class="image-placeholder" th:attr="data-cat=${p.categoria}">
+          <span class="img-text" th:text="${p.nombre.substring(0,1).toUpperCase()}"></span>
+        </div>
+
+        <div class="product-main">
+          <div>
+            <div style="font-weight:800; font-size:1.02rem;" th:text="${p.nombre}">Producto</div>
+            <div class="small muted" th:text="${p.categoria}">Categoría</div>
+          </div>
+
+          <div style="margin-top:8px">
+            <form th:action="@{/cart/add}" method="post" class="inline add-to-cart-form">
+              <input type="hidden" name="productoId" th:value="${p.id}" />
+              <input type="number" name="cantidad" value="1" min="1" style="width:88px; padding:8px 10px; border-radius:8px; border:1px solid #d9dce3;"/>
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button type="submit" class="btn primary">Agregar al carrito</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="product-right">
+          <div class="price-large">S/ <span th:text="${bestPriceMap[p.id]}">0.00</span></div>
+
+          <div style="width:100%; text-align:right">
+            <div class="small muted">Boticas con stock:</div>
+            <ul style="list-style:none; padding:0; margin:0; text-align:right">
+              <li th:if="${stocksMap[p.id] != null and !#lists.isEmpty(stocksMap[p.id])}" th:each="s : ${stocksMap[p.id]}">
+                <span class="botica-line" th:text="${s.botica.nombre + ' - ' + (s.cantidad == 1 ? '1 Unidad' : s.cantidad + ' Unidades') + ' - S/' + T(java.lang.String).format('%.2f', s.precio.doubleValue())}">Botica Centro - 2 Unidades - S/5.20</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(productos)}" class="card">
+      No hay productos para mostrar.
+    </div>
+
+    <div class="footer">&nbsp;</div>
+  </div>
+
+  <!-- Contenedor para notificaciones rápidas -->
+  <div id="toast-container" aria-live="polite" style="position:fixed; right:18px; bottom:18px; z-index:60"></div>
+
+  <script>
+    // Interceptar formularios de añadir al carrito y enviar por fetch para evitar recarga completa
+    document.addEventListener('DOMContentLoaded', function(){
+      const forms = document.querySelectorAll('.add-to-cart-form');
+      forms.forEach(form => {
+        form.addEventListener('submit', async function(e){
+          e.preventDefault();
+          const btn = form.querySelector('button[type="submit"]');
+          btn.disabled = true;
+          const fd = new FormData(form);
+          try{
+            const res = await fetch(form.action, { method: 'POST', body: fd, credentials: 'same-origin' });
+            if(res.redirected){
+              // si backend redirige (por ejemplo a login), seguir la redirección
+              window.location = res.url; return;
+            }
+            if(!res.ok){ throw new Error('Error al agregar'); }
+            showToast('Producto agregado al carrito', 'success');
+          }catch(err){
+            console.error(err);
+            showToast('No se pudo agregar el producto', 'error');
+          }finally{ btn.disabled = false; }
+        });
+      });
+    });
+
+    function showToast(message, type){
+      const c = document.getElementById('toast-container');
+      const t = document.createElement('div');
+      t.className = 'toast ' + (type === 'success' ? 'toast-success' : 'toast-error');
+      t.textContent = message;
+      t.style.marginTop = '8px';
+      c.appendChild(t);
+      setTimeout(()=>{ t.style.opacity = '0'; setTimeout(()=>t.remove(),400); }, 2600);
+    }
+  </script>
+</body>
+</html>
