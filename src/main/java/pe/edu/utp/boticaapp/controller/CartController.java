@@ -14,7 +14,19 @@ import pe.edu.utp.boticaapp.service.CartService;
 public class CartController {
   private final CartService cart; private final UsuarioRepository users;
   private Usuario cu(User p){ return users.findByEmail(p.getUsername()).orElseThrow(); }
-  @GetMapping public String view(@AuthenticationPrincipal User p, Model model){ var u=cu(p); model.addAttribute("items", cart.listar(u)); return "cart"; }
+  @GetMapping
+  public String view(@AuthenticationPrincipal User p, Model model) {
+    var u = cu(p);
+    var items = cart.listar(u);
+    model.addAttribute("items", items);
+    //total del carrito
+    java.math.BigDecimal total = items.stream()
+      .map(i -> i.getProducto().getPrecio().multiply(java.math.BigDecimal.valueOf(i.getCantidad())))
+      .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add);
+    model.addAttribute("totalCarrito", total);
+    return "cart";
+  }
+
   @PostMapping("/add") public String add(@AuthenticationPrincipal User p, @ModelAttribute @Valid AddCartItemForm form){
     cart.agregar(cu(p), form.productoId(), form.cantidad()); return "redirect:/cart";
   }
