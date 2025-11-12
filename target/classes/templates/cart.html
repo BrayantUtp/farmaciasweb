@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Carrito</title><link rel="stylesheet" th:href="@{/cart.css}"></head>
 <body>
 <h1>Carrito</h1>
 <table th:if="${!#lists.isEmpty(items)}" class="table">
