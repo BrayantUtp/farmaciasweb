@@ -4,30 +4,106 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Inicio | PeruBotica</title>
-  <link rel="stylesheet" th:href="@{/styles.css}">
+  <link rel="stylesheet" th:href="@{/home.css}">
 </head>
-<body class="app-bg">
+<body>
 
-  <!-- Header / Navbar -->
   <header class="navbar">
     <div class="nav-inner">
-      <a class="brand" th:href="@{/}">PeruBotica</a>
+      <a class="brand" th:href="@{/}">
+          💊 PeruBotica
+      </a>
       <nav class="nav-links">
         <a th:href="@{/catalogo}">Catálogo</a>
-        <a th:href="@{/cart}">Carrito</a>
-        <a th:href="@{/pedidos}">Pedidos</a>
-        <a th:href="@{/login}">Ingresar</a>
+        <a th:href="@{/pedidos}">Mis Pedidos</a>
+        <a th:href="@{/cart}">Carrito </a>
+        <a th:href="@{/login}" class="nav-btn">Ingresar</a>
       </nav>
     </div>
   </header>
 
-  <!-- Contenido principal -->
-  <main class="container">
-    <center><h1>Bienvenido a PeruBotica</h1></center>
+  <main>
+    
+    <div class="hero-section">
+      <h1 class="hero-title">Bienvenido a PeruBotica</h1>
+      <p class="hero-subtitle">Tu salud y bienestar, al mejor precio y en la puerta de tu casa.</p>
+    </div>
+
+    <div class="slider-container">
+      <div class="slides">
+        
+        <div class="slide">
+          <img src="https://images.ctfassets.net/l9x8e72nkkav/39V7hKAn9VU4YuwrdfhGrs/fa5bf7c5a8fc12da40e6b703ee75348f/Banner_Principal_Web_-_registrados.png?fm=avif" alt="Banner Principal">
+        </div>
+        
+        <div class="slide">
+          <img src="https://images.ctfassets.net/l9x8e72nkkav/6e1L5q36NiRVzHTvBcmkxf/9401fb89a12a1afd1e63f346187a4be6/Tapsin-farmacia-inkafarma-slider-x1-web.jpg?fm=avif" alt="Oferta Tapsin">
+        </div>
+        
+        <div class="slide">
+          <img src="https://images.ctfassets.net/buvy887680uc/44NW5XUWoSKCbOlN6hOQVf/e294c727453c50819dbc9f83ecc8d377/Ensure-nutricionadulto-mifarma-slider-x1-web.jpg?fm=avif" alt="Oferta Ensure">
+        </div>
+
+      </div>
+
+      <div class="slider-dots">
+        <span class="dot active" onclick="currentSlide(0)"></span>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+      </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3 class="feature-title">Envío Rápido</h3>
+            <p class="feature-desc">Recibe tus medicamentos en menos de 24 horas.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <h3 class="feature-title">Pago Seguro</h3>
+            <p class="feature-desc">Aceptamos todas las tarjetas y Yape/Plin.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🩺</div>
+            <h3 class="feature-title">Atención 24/7</h3>
+            <p class="feature-desc">Farmacéuticos disponibles para consultarte.</p>
+        </div>
+    </div>
+
   </main>
 
-  <!-- <footer class="footer">
-    <div class="container small">© <span th:text="${#temporals.format(#dates.createNow(),'yyyy')}">2025</span> BoticaApp — Avance 3</div>
-  </footer> -->
+  <footer class="footer">
+    <div class="container footer-text">
+      © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2025</span> PeruBotica — Cuidamos tu salud
+    </div>
+  </footer>
+
+  <script>
+    let currentIndex = 0;
+    const slides = document.querySelector('.slides');
+    const dots = document.querySelectorAll('.dot');
+    const totalSlides = 3;
+
+    function showSlide(index) {
+        if (index >= totalSlides) currentIndex = 0;
+        else if (index < 0) currentIndex = totalSlides - 1;
+        else currentIndex = index;
+
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[currentIndex].classList.add('active');
+    }
+
+    setInterval(() => {
+        showSlide(currentIndex + 1);
+    }, 5000);
+
+    function currentSlide(n) {
+        showSlide(n);
+    }
+  </script>
+
 </body>
 </html>

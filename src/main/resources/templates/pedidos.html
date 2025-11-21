@@ -1,18 +1,85 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head><meta charset="UTF-8"><title>Pedidos</title><link rel="stylesheet" th:href="@{/styles.css}"></head>
-<body>
-<h1>Mis pedidos</h1>
-<table class="table">
-  <thead><tr><th>ID</th><th>Fecha</th><th>Estado</th><th>Total</th></tr></thead>
-  <tbody>
-    <tr th:each="p: ${pedidos}">
-      <td th:text="${p.id}">1</td>
-      <td th:text="${#temporals.format(p.creadoEn, 'dd/MM/yyyy HH:mm')}">-</td>
-      <td th:text="${p.estado}">PENDIENTE</td>
-      <td th:text="${p.total}">0.00</td>
-    </tr>
-  </tbody>
-</table>
-<p><a th:href="@{/}">Inicio</a></p>
-</body></html>
+<head>
+  <meta charset="UTF-8">
+  <title>Mis Pedidos | PeruBotica</title>
+  <link rel="stylesheet" th:href="@{/pedidos.css}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="app-bg">
+
+  <div class="container">
+    
+    <div class="page-header">
+      <div class="page-title">
+        <h1>Historial de Pedidos</h1>
+        <span class="page-subtitle">Revisa el estado y detalle de tus compras recientes</span>
+      </div>
+      <div>
+        <a th:href="@{/catalogo}" class="btn primary">
+           + Nuevo Pedido
+        </a>
+        <a th:href="@{/}" class="btn ghost" style="margin-left: 8px;">Inicio</a>
+      </div>
+    </div>
+
+    <div class="table-card">
+      
+      <div class="table-responsive">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th>N° Orden</th>
+              <th>Fecha de Compra</th>
+              <th>Estado</th>
+              <th>Total</th>
+              <th style="text-align:right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="p : ${pedidos}">
+              
+              <td>
+                <span class="col-id" th:text="'#' + ${p.id}">#1024</span>
+              </td>
+              
+              <td>
+                <span th:text="${#temporals.format(p.creadoEn, 'dd MMM yyyy, HH:mm')}">20 Nov 2024</span>
+              </td>
+              
+              <td>
+                <span class="status-badge" 
+                      th:attr="data-status=${p.estado}" 
+                      th:text="${p.estado}">PENDIENTE</span>
+              </td>
+              
+              <td class="col-total">
+                S/ <span th:text="${#numbers.formatDecimal(p.total, 1, 2)}">150.00</span>
+              </td>
+              
+              <td style="text-align:right">
+                <a href="#" class="btn-icon" title="Ver detalles">
+                   Ver ➔
+                </a>
+              </td>
+            </tr>
+            
+            <tr th:if="${#lists.isEmpty(pedidos)}">
+                <td colspan="5" style="text-align:center; padding: 40px; color: #64748b;">
+                    No tienes pedidos registrados todavía.
+                </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="footer">
+        &copy; 2024 PeruBotica - Sistema de Gestión Farmacéutica
+    </div>
+
+  </div>
+
+</body>
+</html>
