@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Registro</title><link rel="stylesheet" th:href="@{/styles.css}"></head>
+<body>
+<h1>Registro</h1>
+<form th:object="${form}" method="post" class="column">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  <label>Correo</label><input type="email" th:field="*{email}"/>
+  <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
+  <label>Nombres</label><input type="text" th:field="*{nombres}"/>
+  <div class="error" th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}">Error</div>
+  <label>Contraseña</label><input type="password" th:field="*{password}"/>
+  <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Error</div>
+  <button class="btn primary">Crear cuenta</button>
+</form>
+</body></html>

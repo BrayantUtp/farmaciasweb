@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seguimiento del Pedido - BoticaApp</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 16px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .btn-back {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #f8f9fa;
+            color: #212529;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .btn-back:hover {
+            background: #e9ecef;
+            transform: scale(1.05);
+        }
+        .header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        /* Main Layout - 2 columnas en desktop */
+        .tracking-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+        }
+
+        @media (min-width: 969px) {
+            .tracking-layout {
+                grid-template-columns: 1.5fr 1fr;
+                gap: 24px;
+                padding: 24px;
+            }
+            .left-column {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            .right-column {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+
+        /* Map */
+        .map-container {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @media (min-width: 969px) {
+            .map-container {
+                height: 400px;
+                border-radius: 20px;
+            }
+        }
+        .map-placeholder {
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(102, 126, 234, 0.05) 10px, rgba(102, 126, 234, 0.05) 20px),
+                linear-gradient(to bottom, #f0f4ff, #e8edff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .map-icon {
+            font-size: 80px;
+            opacity: 0.3;
+        }
+        .delivery-marker {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+            animation: pulse 2s infinite;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Content */
+        .content {
+            padding: 20px;
+        }
+
+        /* Delivery Person */
+        .delivery-person {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .person-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 16px;
+        }
+        .person-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .person-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+        .person-details {
+            flex: 1;
+        }
+        .person-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+        .person-role {
+            font-size: 13px;
+            color: #6c757d;
+        }
+        .person-rating {
+            font-size: 14px;
+            color: #ffc107;
+            margin-top: 4px;
+        }
+        .btn-contact {
+            padding: 10px 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-contact:hover {
+            background: #218838;
+            transform: scale(1.05);
+        }
+
+        /* Order Details */
+        .order-details {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .details-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 16px;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f8f9fa;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212529;
+        }
+        .detail-total {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 2px solid #f8f9fa;
+        }
+        .total-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* Delivery Info */
+        .delivery-info {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .info-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 16px;
+        }
+        .info-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .info-text {
+            flex: 1;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        /* Timeline */
+        .timeline {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 20px;
+        }
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-item:not(:last-child)::before {
+            content: '';
+            position: absolute;
+            left: 19px;
+            top: 40px;
+            width: 2px;
+            height: calc(100% + 24px);
+            background: #e9ecef;
+        }
+        .timeline-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .timeline-dot.active {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        .timeline-dot.inactive {
+            background: #e9ecef;
+        }
+        .timeline-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+        .timeline-status {
+            font-size: 15px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+        .timeline-time {
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .tracking-layout {
+                padding: 16px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .tracking-layout {
+                padding: 16px;
+            }
+            .map-container { height: 240px; }
+            .delivery-person,
+            .order-details,
+            .delivery-info,
+            .timeline {
+                padding: 16px;
+            }
+            .person-avatar {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+            .person-name { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <button class="btn-back" onclick="window.location.href='/pedidos'">←</button>
+            <h1>Seguimiento del Pedido</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Map -->
+        <div class="map-container">
+            <div class="map-placeholder">
+                <div class="map-icon">🗺️</div>
+                <div class="delivery-marker">🏍️</div>
+            </div>
+        </div>
+
+        <!-- Layout 2 columnas -->
+        <div class="tracking-layout">
+            <!-- Columna Izquierda -->
+            <div class="left-column">
+                <!-- Delivery Person -->
+                <div class="delivery-person">
+                    <div class="person-title">Información del Repartidor</div>
+                    <div class="person-info">
+                        <div class="person-avatar">👤</div>
+                        <div class="person-details">
+                            <div class="person-name">Carlos</div>
+                            <div class="person-role">Repartidor</div>
+                            <div class="person-rating">⭐ 4.8 (127 entregas)</div>
+                        </div>
+                        <button class="btn-contact">📞 Llamar</button>
+                    </div>
+                </div>
+
+                <!-- Delivery Info -->
+                <div class="delivery-info">
+                    <div class="info-title">Información de Entrega</div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">📍</div>
+                        <div class="info-text">
+                            <div class="info-label">Dirección:</div>
+                            <div class="info-value">Av. El Bosque 233, Lima</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">⏱️</div>
+                        <div class="info-text">
+                            <div class="info-label">Tiempo Estimado de Llegada:</div>
+                            <div class="info-value">15-20 minutos</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="timeline">
+                    <div class="timeline-title">Estado del Pedido</div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot active">✓</div>
+                        <div class="timeline-content">
+                            <div class="timeline-status">Pedido Confirmado</div>
+                            <div class="timeline-time" th:text="${#temporals.format(pedido.creadoEn, 'dd/MM/yyyy HH:mm')}">29/11/2025 18:26</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot active">✓</div>
+                        <div class="timeline-content">
+                            <div class="timeline-status">Pago Recibido</div>
+                            <div class="timeline-time" th:text="${#temporals.format(pedido.creadoEn.plusMinutes(1), 'dd/MM/yyyy HH:mm')}">29/11/2025 18:27</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot active">✓</div>
+                        <div class="timeline-content">
+                            <div class="timeline-status">Preparando Pedido</div>
+                            <div class="timeline-time" th:text="${#temporals.format(pedido.creadoEn.plusMinutes(5), 'dd/MM/yyyy HH:mm')}">29/11/2025 18:31</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot active">🏍️</div>
+                        <div class="timeline-content">
+                            <div class="timeline-status">En Camino</div>
+                            <div class="timeline-time">Ahora</div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot inactive">📦</div>
+                        <div class="timeline-content">
+                            <div class="timeline-status" style="color: #6c757d;">Entregado</div>
+                            <div class="timeline-time">Pendiente</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna Derecha -->
+            <div class="right-column">
+                <!-- Order Details -->
+                <div class="order-details">
+                    <div class="details-title">Detalles del Pedido</div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Subtotal</span>
+                        <span class="detail-value">
+                            S/ <span th:text="${#numbers.formatDecimal(pedido.total - 2.50, 1, 2)}">14.24</span>
+                        </span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="detail-label">Envío</span>
+                        <span class="detail-value">S/ 2.50</span>
+                    </div>
+                    
+                    <div class="detail-row detail-total">
+                        <span class="detail-label">Total</span>
+                        <span class="total-value">
+                            S/ <span th:text="${#numbers.formatDecimal(pedido.total, 1, 2)}">16.74</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

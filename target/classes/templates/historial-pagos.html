@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Pagos</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        .historial-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .pago-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .pago-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .pago-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .pago-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-weight: 600;
+            color: #333;
+        }
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .status-aprobado {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status-rechazado {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .status-pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .monto-destacado {
+            font-size: 24px;
+            font-weight: 700;
+            color: #11998e;
+        }
+        .btn-ver-comprobante {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        .btn-ver-comprobante:hover {
+            transform: translateY(-1px);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="historial-container">
+        <h1>Historial de Pagos</h1>
+        
+        <!-- Lista de pagos -->
+        <div th:if="${!#lists.isEmpty(pagos)}">
+            <div class="pago-card" th:each="pago : ${pagos}">
+                <div class="pago-header">
+                    <div>
+                        <h3 style="margin: 0 0 5px 0;">
+                            Pedido #<span th:text="${pago.pedido.id}"></span>
+                        </h3>
+                        <span class="info-label" 
+                              th:text="${#temporals.format(pago.fechaPago, 'dd/MM/yyyy HH:mm')}"></span>
+                    </div>
+                    <span th:class="'status-badge status-' + ${#strings.toLowerCase(pago.estado.name())}"
+                          th:text="${pago.estado}"></span>
+                </div>
+                
+                <div class="pago-info">
+                    <div class="info-item">
+                        <span class="info-label">Código de Transacción</span>
+                        <span class="info-value" th:text="${pago.codigoTransaccion}"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Método de Pago</span>
+                        <span class="info-value" th:text="${pago.metodoPago}"></span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Tarjeta</span>
+                        <span class="info-value">
+                            **** **** **** <span th:text="${pago.numeroTarjetaUltimos4}"></span>
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Monto</span>
+                        <span class="monto-destacado">S/ <span th:text="${pago.monto}"></span></span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                    <span class="info-label" th:text="${pago.mensajeRespuesta}"></span>
+                    <a th:href="@{'/pagos/comprobante/' + ${pago.id}}" 
+                       class="btn-ver-comprobante">
+                        Ver Comprobante
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Estado vacío -->
+        <div th:if="${#lists.isEmpty(pagos)}" class="empty-state">
+            <div class="empty-state-icon">💳</div>
+            <h2>No tienes pagos registrados</h2>
+            <p>Realiza tu primera compra para ver tu historial de pagos aquí</p>
+            <a th:href="@{/catalogo}" class="btn-ver-comprobante" style="margin-top: 20px;">
+                Ir al Catálogo
+            </a>
+        </div>
+        
+        <p style="text-align: center; margin-top: 30px;">
+            <a th:href="@{/pedidos}">← Volver a mis pedidos</a>
+        </p>
+    </div>
+</body>
+</html>

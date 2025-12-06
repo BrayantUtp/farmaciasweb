@@ -1,0 +1,162 @@
+
+<style>
+    /* Navbar Styles */
+    .navbar {
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .navbar-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 16px 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-logo {
+        font-size: 24px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-decoration: none;
+    }
+
+    .navbar-links {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+    }
+
+    .navbar-links a {
+        color: #495057;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 15px;
+    }
+
+    .navbar-links a:hover {
+        color: #667eea;
+    }
+
+    .navbar-user {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .navbar-username {
+        color: #495057;
+        font-size: 14px;
+    }
+
+    .navbar-username strong {
+        color: #212529;
+    }
+
+    .btn-navbar {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 14px;
+    }
+
+    .btn-navbar:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-navbar.logout {
+        background: #6c757d;
+    }
+
+    .btn-navbar.logout:hover {
+        background: #5a6268;
+        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.4);
+    }
+
+    .navbar-mobile-toggle {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #495057;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .navbar-links {
+            display: none; /* Implementar menú móvil después */
+        }
+
+        .navbar-mobile-toggle {
+            display: block;
+        }
+    }
+</style>
+
+<!-- NAVBAR HTML -->
+<nav class="navbar">
+    <div class="navbar-content">
+        <!-- Logo -->
+        <a th:href="@{/}" class="navbar-logo">💊 BoticaApp</a>
+        
+        <!-- Links -->
+        <div class="navbar-links">
+            <!-- Link siempre visible -->
+            <a th:href="@{/catalogo}">
+                <span>🔍</span> Catálogo
+            </a>
+            
+            <!-- Links solo para usuarios autenticados -->
+            <a th:href="@{/cart}" sec:authorize="isAuthenticated()">
+                <span>🛒</span> Carrito
+            </a>
+            
+            <a th:href="@{/pedidos}" sec:authorize="isAuthenticated()">
+                <span>📦</span> Pedidos
+            </a>
+            
+            <!-- Botón Login (solo si NO está autenticado) -->
+            <a th:href="@{/login}" class="btn-navbar" sec:authorize="!isAuthenticated()">
+                Ingresar
+            </a>
+            
+            <!-- Usuario y Logout (solo si SÍ está autenticado) -->
+            <div class="navbar-user" sec:authorize="isAuthenticated()">
+                <span class="navbar-username">
+                    Hola, <strong sec:authentication="name">Usuario</strong>
+                </span>
+                
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="btn-navbar logout">
+                        🚪 Salir
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="navbar-mobile-toggle" onclick="alert('Menú móvil - próximamente')">
+            ☰
+        </button>
+    </div>
+</nav>

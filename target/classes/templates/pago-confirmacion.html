@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pago Exitoso - BoticaApp</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .success-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: scaleIn 0.6s ease 0.3s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-icon svg {
+            width: 60px;
+            height: 60px;
+            stroke: white;
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: checkmark 0.5s ease 0.8s forwards;
+        }
+
+        @keyframes checkmark {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 12px;
+        }
+
+        .success-message {
+            font-size: 16px;
+            color: #6c757d;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .order-info {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .order-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-label {
+            font-size: 14px;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .order-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .order-id {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .comprobante-numero {
+            font-size: 20px;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .order-total {
+            font-size: 28px;
+            font-weight: 700;
+            color: #28a745;
+        }
+
+        .delivery-info {
+            background: linear-gradient(135deg, #fff5f0 0%, #ffe8e0 100%);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 32px;
+            text-align: left;
+        }
+
+        .delivery-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .delivery-item {
+            font-size: 14px;
+            color: #495057;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #f8f9fa;
+        }
+
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 32px 24px;
+            }
+            .success-title {
+                font-size: 26px;
+            }
+            .success-icon {
+                width: 80px;
+                height: 80px;
+            }
+            .success-icon svg {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-card">
+            <div class="success-icon">
+                <svg viewBox="0 0 52 52">
+                    <polyline points="14 27 22 35 38 19"/>
+                </svg>
+            </div>
+
+            <h1 class="success-title">¡Pago Exitoso!</h1>
+            <p class="success-message">
+                Tu pago ha sido procesado correctamente.<br>
+                Se ha generado tu comprobante electrónico.
+            </p>
+
+            <div class="order-info">
+                <!-- ✅ MOSTRAR NÚMERO DE COMPROBANTE -->
+                <div class="order-row">
+                    <span class="order-label">
+                        📄 Número de Comprobante
+                    </span>
+                    <span class="comprobante-numero" th:text="${comprobante.numeroComprobante}">COMP-000001</span>
+                </div>
+
+                <div class="order-row">
+                    <span class="order-label">
+                        📦 Número de Pedido
+                    </span>
+                    <span class="order-id">#<span th:text="${pedido.id}">001</span></span>
+                </div>
+
+                <div class="order-row">
+                    <span class="order-label">
+                        💳 Método de Pago
+                    </span>
+                    <span class="order-value" th:text="${comprobante.metodoPago}">Tarjeta</span>
+                </div>
+
+                <div class="order-row">
+                    <span class="order-label">
+                        📅 Fecha de Emisión
+                    </span>
+                    <span class="order-value" th:text="${#temporals.format(comprobante.fechaEmision, 'dd/MM/yyyy HH:mm')}">
+                        04/12/2025 18:00
+                    </span>
+                </div>
+
+                <div class="order-row">
+                    <span class="order-label">
+                        💰 Total Pagado
+                    </span>
+                    <span class="order-total">
+                        S/ <span th:text="${#numbers.formatDecimal(pedido.total, 1, 2)}">0.00</span>
+                    </span>
+                </div>
+            </div>
+
+            <div class="delivery-info">
+                <div class="delivery-title">
+                    🚚 Información de Entrega
+                </div>
+                <div class="delivery-item">
+                    📍 Dirección: <span th:text="${comprobante.direccionEntrega != null ? comprobante.direccionEntrega : 'Pendiente de registro'}">Av. El Bosque 233, Lima</span>
+                </div>
+                <div class="delivery-item">
+                    ⏰ Tiempo estimado: 24-48 horas
+                </div>
+                <div class="delivery-item">
+                    📱 Te notificaremos cuando esté en camino
+                </div>
+            </div>
+
+            <div class="buttons">
+                <a th:href="@{/pedidos}" class="btn btn-primary">
+                    Ver Mis Pedidos
+                </a>
+                <a th:href="@{/catalogo}" class="btn btn-secondary">
+                    Seguir Comprando
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createConfetti() {
+            const colors = ['#667eea', '#764ba2', '#28a745', '#20c997', '#ffc107', '#dc3545'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'fixed';
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = 'confetti-fall ' + (Math.random() * 3 + 2) + 's linear';
+                    confetti.style.animationDelay = Math.random() * 3 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 30);
+            }
+        }
+
+        window.addEventListener('load', createConfetti);
+    </script>
+</body>
+</html>

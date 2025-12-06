@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - BoticaApp</title>
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #212529;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #212529;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 8px;
+        }
+
+        .back-button:hover {
+            background: #f8f9fa;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 600;
+            flex: 1;
+            text-align: center;
+            margin-right: 40px; /* Para centrar considerando el botón */
+        }
+
+        /* Search Section */
+        .search-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px;
+        }
+
+        .search-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 20px 14px 48px;
+            padding-right: 48px;
+            border: 1px solid #dee2e6;
+            border-radius: 12px;
+            font-size: 15px;
+            background: white;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            font-size: 18px;
+        }
+
+        .clear-search {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #e9ecef;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .clear-search:hover {
+            background: #dee2e6;
+            color: #212529;
+        }
+
+        /* Results Section */
+        .results-header {
+            font-size: 18px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 20px;
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Product Card */
+        .product-result {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .product-result:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .product-image {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+        }
+
+        /* Variaciones de color para diferentes productos */
+        .product-result:nth-child(1) .product-image { 
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); 
+        }
+        .product-result:nth-child(2) .product-image { 
+            background: linear-gradient(135deg, #ffd89b 0%, #f8bb86 100%); 
+        }
+        .product-result:nth-child(3) .product-image { 
+            background: linear-gradient(135deg, #f9d5a7 0%, #f5b895 100%); 
+        }
+        .product-result:nth-child(4) .product-image { 
+            background: linear-gradient(135deg, #e8c4a1 0%, #dca684 100%); 
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .product-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 4px;
+        }
+
+        .product-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .product-availability,
+        .product-quantity,
+        .product-pharmacy {
+            font-size: 13px;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .product-availability strong,
+        .product-quantity strong,
+        .product-pharmacy strong {
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stock-badge.in-stock {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .stock-badge.low-stock {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .stock-badge.out-stock {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 8px;
+        }
+
+        .product-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-end;
+        }
+
+        .btn-detail {
+            padding: 8px 20px;
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-detail:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+        .btn-add-cart {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .quantity-selector label {
+            font-size: 12px;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .quantity-input {
+            width: 60px;
+            padding: 6px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: #495057;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Filters (optional) */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .filter-chip {
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-section {
+                padding: 16px;
+            }
+
+            .header-content {
+                padding: 12px 16px;
+            }
+
+            .product-result {
+                flex-direction: column;
+            }
+
+            .product-image {
+                width: 100%;
+                height: 120px;
+            }
+
+            .product-actions {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .btn-detail,
+            .btn-add-cart {
+                flex: 1;
+            }
+
+            .quantity-selector {
+                margin-top: 0;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .results-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+                gap: 20px;
+            }
+
+            .product-result {
+                flex-direction: column;
+            }
+
+            .product-actions {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .results-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Add to cart form */
+        .add-cart-form {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .add-cart-form {
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <a th:href="@{/catalogo}" class="back-button">←</a>
+            <h1 class="header-title" th:text="${q != null && !q.isEmpty() ? q : 'Medicamentos'}">Medicamento</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="search-section">
+        <!-- Search Bar -->
+        <form method="get" th:action="@{/catalogo}">
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input 
+                    type="text" 
+                    name="q" 
+                    class="search-input"
+                    th:value="${q}"
+                    placeholder="Buscar medicamentos..."
+                    autofocus>
+                <button type="button" class="clear-search" onclick="this.form.querySelector('input[name=q]').value=''; this.form.submit();">✕</button>
+            </div>
+        </form>
+
+        <!-- Filters (opcional) -->
+        <div class="filters" th:if="${!#lists.isEmpty(productos)}">
+            <button class="filter-chip active">Todos</button>
+            <button class="filter-chip">En stock</button>
+            <button class="filter-chip">Precio bajo</button>
+            <button class="filter-chip">Precio alto</button>
+        </div>
+
+        <!-- Results Header -->
+        <div th:if="${!#lists.isEmpty(productos)}">
+            <h2 class="results-header">
+                Resultados
+                <span style="color: #6c757d; font-weight: 400; font-size: 14px;">
+                    (<span th:text="${#lists.size(productos)}"></span> productos)
+                </span>
+            </h2>
+
+            <!-- Results List -->
+            <div class="results-list">
+                <div class="product-result" th:each="p : ${productos}">
+                    <!-- Product Image -->
+                    <div class="product-image">
+                        <span th:switch="${p.categoria}">
+                            <span th:case="'Analgesico'">💊</span>
+                            <span th:case="'Gastro'">🏥</span>
+                            <span th:case="'Vitamina'">💪</span>
+                            <span th:case="*">💊</span>
+                        </span>
+                    </div>
+
+                    <!-- Product Info -->
+                    <div class="product-info">
+                        <div class="product-name" th:text="${p.nombre}">Paracetamol 500mg</div>
+                        
+                        <div class="product-meta">
+                            <div class="product-availability">
+                                <strong>Disponibilidad:</strong> 
+                                <span class="stock-badge in-stock">En stock</span>
+                            </div>
+                            
+                            <div class="product-quantity">
+                                <strong>Cantidad:</strong> 
+                                <span>10</span> <!-- Aquí podrías agregar stock real -->
+                            </div>
+                            
+                            <div class="product-pharmacy">
+                                <strong>Categoría:</strong> 
+                                <span th:text="${p.categoria}">Farmacia Central</span>
+                            </div>
+                        </div>
+
+                        <div class="product-price">
+                            S/ <span th:text="${p.precio}">0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Product Actions -->
+                    <div class="product-actions">
+                        <a th:href="@{'/catalogo/producto/' + ${p.id}}" class="btn-detail">Ver detalle</a>
+                        
+                        <form th:action="@{/cart/add}" method="post" class="add-cart-form">
+                            <input type="hidden" name="productoId" th:value="${p.id}"/>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            
+                            <div class="quantity-selector">
+                                <label>Cant:</label>
+                                <input type="number" name="cantidad" value="1" min="1" max="99" class="quantity-input"/>
+                            </div>
+                            
+                            <button type="submit" class="btn-add-cart">
+                                🛒 Agregar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div th:if="${#lists.isEmpty(productos) && q != null && !q.isEmpty()}" class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <h2>No se encontraron resultados</h2>
+            <p>Intenta buscar con otros términos</p>
+        </div>
+
+        <!-- Initial State -->
+        <div th:if="${q == null || q.isEmpty()}" class="empty-state">
+            <div class="empty-state-icon">💊</div>
+            <h2>Busca tus medicamentos</h2>
+            <p>Escribe el nombre del medicamento que necesitas</p>
+        </div>
+    </div>
+</body>
+</html>

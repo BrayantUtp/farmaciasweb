@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>Catálogo</title><link rel="stylesheet" th:href="@{/styles.css}"></head>
+<body>
+<h1>Catálogo</h1>
+<form method="get"><input type="text" name="q" th:value="${q}" placeholder="Buscar"/><button>Buscar</button>
+<a th:href="@{/catalogo/export}">Exportar Excel</a></form>
+<div th:each="p: ${productos}" class="card">
+  <div><b th:text="${p.nombre}">Producto</b> - S/ <span th:text="${p.precio}">0.00</span></div>
+  <form th:action="@{/cart/add}" method="post" class="inline">
+    <input type="hidden" name="productoId" th:value="${p.id}"/>
+    <input type="number" name="cantidad" value="1" min="1"/>
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <button>Agregar</button>
+  </form>
+</div>
+<p><a th:href="@{/}">Inicio</a></p>
+</body></html>
