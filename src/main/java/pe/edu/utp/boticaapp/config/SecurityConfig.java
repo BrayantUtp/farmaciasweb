@@ -4,6 +4,8 @@ import pe.edu.utp.boticaapp.service.impl.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
   private final UserDetailsServiceImpl uds;
@@ -24,9 +27,14 @@ public class SecurityConfig {
       .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**"))
       .headers(h -> h.frameOptions(f -> f.disable()))
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/", "/catalogo/**", "/css/**","/styles.css", "/js/**", "/img/**", "/h2-console/**", "/login", "/register", "/error").permitAll()
+        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+        .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**").permitAll()
+        .requestMatchers("/", "/catalogo/**", "/h2-console/**", "/login", "/register", "/error").permitAll()
+        .requestMatchers("/actuator/**").permitAll()
+        .requestMatchers("/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated()
       )
+      .exceptionHandling(e -> e.accessDeniedPage("/error/403"))
       .formLogin(login -> login
         .loginPage("/login")
         .loginProcessingUrl("/login")

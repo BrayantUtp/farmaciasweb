@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -17,7 +17,13 @@
         <a th:href="@{/catalogo}">Catálogo</a>
         <a th:href="@{/pedidos}">Mis Pedidos</a>
         <a th:href="@{/cart}">Carrito </a>
-        <a th:href="@{/login}" class="nav-btn">Ingresar</a>
+        <!-- SOLO mostrar si el servidor indica que es admin (isAdmin) -->
+        <a th:if="${isAdmin}" th:href="@{/admin/monitor}" style="color: #ff6b6b; font-weight: 600;">📊 Monitoreo</a>
+        <!-- Mostrar Ingresar si NO está autenticado; Salir si está autenticado -->
+        <a th:if="${!isAuthenticated}" th:href="@{/login}" class="nav-btn">Ingresar</a>
+        <form th:if="${isAuthenticated}" th:action="@{/logout}" method="post" style="display:inline;">
+          <button type="submit" class="nav-btn nav-logout" style="background:none;border:none;cursor:pointer;padding:0;font:inherit;">Salir</button>
+        </form>
       </nav>
     </div>
   </header>

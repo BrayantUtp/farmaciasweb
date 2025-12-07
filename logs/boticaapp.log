@@ -1,0 +1,127 @@
+2025-12-07 07:33:02.041 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9h35m24s726ms79µs300ns).
+2025-12-07 07:34:31.831 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 07:34:31.913 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 07:34:38.893 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 07:34:38.897 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 07:34:38.949 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select count(*) from usuario u1_0
+2025-12-07 07:34:38.952 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select count(*) from carrito_item ci1_0
+2025-12-07 07:34:38.956 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select count(*) from pedido p1_0
+2025-12-07 07:34:38.958 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select count(*) from usuario u1_0
+2025-12-07 07:34:38.963 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select count(*) from producto p1_0
+2025-12-07 07:35:00.665 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 07:35:00.674 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 07:35:00.682 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select ci1_0.id,ci1_0.cantidad,ci1_0.producto_id,ci1_0.usuario_id from carrito_item ci1_0 where ci1_0.usuario_id=?
+2025-12-07 07:35:00.686 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.categoria,p1_0.nombre,p1_0.precio,p1_0.sku from producto p1_0 where p1_0.id=?
+2025-12-07 12:00:12.794 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-12-07 12:00:12.849 [main] INFO  p.e.u.boticaapp.BoticaAppApplication - Starting BoticaAppApplication using Java 17.0.17 with PID 24412 (D:\UTP\Intergrador Sistemas\farmaciasweb\target\classes started by atosc in D:\UTP\Intergrador Sistemas\farmaciasweb)
+2025-12-07 12:00:12.850 [main] DEBUG p.e.u.boticaapp.BoticaAppApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-12-07 12:00:12.851 [main] INFO  p.e.u.boticaapp.BoticaAppApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-07 12:00:14.410 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-07 12:00:14.533 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 110 ms. Found 6 JPA repository interfaces.
+2025-12-07 12:00:15.612 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-07 12:00:15.640 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-12-07 12:00:15.645 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-07 12:00:15.647 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-12-07 12:00:15.746 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-07 12:00:15.747 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2840 ms
+2025-12-07 12:00:16.083 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-07 12:00:16.170 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-12-07 12:00:16.216 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-12-07 12:00:16.573 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-07 12:00:16.619 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-07 12:00:16.819 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@32c6d164
+2025-12-07 12:00:16.821 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-07 12:00:16.875 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-07 12:00:16.877 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-07 12:00:17.774 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-07 12:00:17.856 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-07 12:00:18.475 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-07 12:00:18.912 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-07 12:00:18.987 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-12-07 12:00:18.988 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-12-07 12:00:19.374 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoints beneath base path '/actuator'
+2025-12-07 12:00:19.891 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-12-07 12:00:19.926 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-07 12:00:19.951 [main] INFO  p.e.u.boticaapp.BoticaAppApplication - Started BoticaAppApplication in 7.612 seconds (process running for 7.944)
+2025-12-07 12:00:20.219 [main] DEBUG org.hibernate.SQL - select count(*) from producto p1_0
+2025-12-07 12:00:20.255 [main] DEBUG org.hibernate.SQL - select count(*) from usuario u1_0
+2025-12-07 12:00:22.006 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-07 12:00:22.007 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-07 12:00:22.009 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-12-07 12:04:09.776 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:04:09.859 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:04:11.732 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:04:11.738 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.categoria,p1_0.nombre,p1_0.precio,p1_0.sku from producto p1_0
+2025-12-07 12:04:11.761 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:04:11.766 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:04:11.768 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:04:11.771 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:04:11.778 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:04:11.785 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:04:11.788 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:04:11.794 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:04:13.652 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:28.182 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-12-07 12:10:28.227 [main] INFO  p.e.u.boticaapp.BoticaAppApplication - Starting BoticaAppApplication using Java 17.0.17 with PID 44656 (D:\UTP\Intergrador Sistemas\farmaciasweb\target\classes started by atosc in D:\UTP\Intergrador Sistemas\farmaciasweb)
+2025-12-07 12:10:28.228 [main] DEBUG p.e.u.boticaapp.BoticaAppApplication - Running with Spring Boot v3.3.3, Spring v6.1.12
+2025-12-07 12:10:28.230 [main] INFO  p.e.u.boticaapp.BoticaAppApplication - No active profile set, falling back to 1 default profile: "default"
+2025-12-07 12:10:29.477 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-07 12:10:29.574 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 88 ms. Found 6 JPA repository interfaces.
+2025-12-07 12:10:30.695 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-12-07 12:10:30.719 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2025-12-07 12:10:30.728 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-12-07 12:10:30.729 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-12-07 12:10:30.841 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-12-07 12:10:30.843 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2570 ms
+2025-12-07 12:10:31.260 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-07 12:10:31.325 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-12-07 12:10:31.362 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-12-07 12:10:31.643 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-07 12:10:31.678 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-12-07 12:10:31.861 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@77f7352a
+2025-12-07 12:10:31.863 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-12-07 12:10:31.908 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL8Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-12-07 12:10:31.910 [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL8Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2025-12-07 12:10:33.171 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-07 12:10:33.271 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-07 12:10:33.846 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-12-07 12:10:34.343 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-07 12:10:34.429 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-12-07 12:10:34.430 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used for username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider.
+2025-12-07 12:10:34.838 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 7 endpoints beneath base path '/actuator'
+2025-12-07 12:10:35.444 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2025-12-07 12:10:35.468 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-12-07 12:10:35.487 [main] INFO  p.e.u.boticaapp.BoticaAppApplication - Started BoticaAppApplication in 7.819 seconds (process running for 8.182)
+2025-12-07 12:10:35.551 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-07 12:10:35.552 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-12-07 12:10:35.554 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-12-07 12:10:35.641 [main] DEBUG org.hibernate.SQL - select count(*) from producto p1_0
+2025-12-07 12:10:35.654 [main] DEBUG org.hibernate.SQL - select count(*) from usuario u1_0
+2025-12-07 12:10:51.345 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:51.429 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:53.903 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:54.535 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:55.423 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:55.432 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.categoria,p1_0.nombre,p1_0.precio,p1_0.sku from producto p1_0
+2025-12-07 12:10:55.455 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:55.462 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:55.466 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:55.468 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:55.473 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:55.477 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:55.480 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:55.483 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:56.703 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:59.342 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:10:59.346 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select p1_0.id,p1_0.categoria,p1_0.nombre,p1_0.precio,p1_0.sku from producto p1_0
+2025-12-07 12:10:59.349 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:59.350 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:59.352 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:59.354 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:59.358 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:59.363 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:10:59.365 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select b1_0.id,b1_0.direccion,b1_0.nombre from botica b1_0 where b1_0.id=?
+2025-12-07 12:10:59.371 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select s1_0.id,s1_0.botica_id,s1_0.cantidad,s1_0.precio,s1_0.producto_id,s1_0.producto_sku from stock s1_0 where s1_0.producto_sku=? and s1_0.cantidad>0 order by s1_0.precio limit ?
+2025-12-07 12:11:01.757 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:11:09.619 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?
+2025-12-07 12:11:09.695 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.email,u1_0.nombres,u1_0.password_hash,u1_0.rol from usuario u1_0 where u1_0.email=?

@@ -246,6 +246,14 @@ ul { list-style: none; }
 }
 .nav-btn:hover { background: #4338ca; transform: translateY(-1px); }
 
+/* Logout button variant: plain text, visible in dark color */
+.nav-btn.nav-logout {
+  background: transparent !important;
+  color: #000 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
 /* --- HERO & TITULO --- */
 .hero-section { text-align: center; padding: 40px 20px 30px; }
 .hero-title {
@@ -303,3 +311,7 @@ ul { list-style: none; }
     .nav-links { display: none; } /* Simplificado para móvil: ocultar links (idealmente usaríamos JS para un menú hamburguesa) */
     .hero-title { font-size: 2rem; }
 }
+
+<link rel="stylesheet" th:href="@{/home.css}">
+<link rel="stylesheet" th:href="@{/styles.css}">
+<link rel="stylesheet" th:href="@{/catalogo.css}">
